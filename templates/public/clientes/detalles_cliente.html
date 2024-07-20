@@ -1,0 +1,113 @@
+{% extends 'public/base_cpanel.html' %}
+<!--Cambiando el title-->
+{% block title %}Lawyer | Registrar Empleado{% endblock %}
+<!---->
+{% block customCSS %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename ='assets/css/file.css') }}" />
+{% endblock %}
+
+<!--Inicio del block-->
+{% block body %}
+<!---->
+{% if (detalle_cliente|length) %}
+<div class="card" style="border-radius: 0px !important">
+  <div class="row justify-content-center mb-2">
+    <div class="col-md-12">
+      <h3 class="text-center mt-5 mb-3">
+        <a href="/lista-de-clientes">
+          <i class="bi bi-arrow-left-circle"></i>
+        </a>
+        INFORMACIÓN DEL CLIENTE
+      </h3>
+      <hr />
+    </div>
+  </div>
+
+  <div class="row justify-content-center mb-2">
+    <div class="col-md-10">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-4">
+            <label for="nombre_cliente" class="form-label">
+              Identificacion del cliente
+            </label>
+            <br />
+            {{ detalle_cliente.id}}
+          </div>
+          <div class="col-md-4">
+            <label for="nombre_cliente" class="form-label">
+              Nombre del cliente
+            </label>
+            <br />
+            {{ detalle_cliente.nombre_empleado}}
+          </div>
+          <div class="col-md-4">
+            <label for="apellido_cliente" class="form-label">
+              Apellido del cliente
+            </label>
+            <br />
+            {{ detalle_cliente.apellido_empleado}}
+          </div>
+        </div>
+
+        <div class="row mt-2">
+          <div class="col-md-4">
+            <label for="sexo_cliente" class="form-label">
+              Sexo del cliente
+            </label>
+            <br />
+            {{ detalle_cliente.sexo_empleado}}
+          </div>
+          <div class="col-md-4">
+            <label for="telefono_empleado" class="form-label">
+              Telefono del cliente
+            </label>
+            <br />
+            {{ detalle_cliente.telefono_empleado}}
+          </div>
+          <div class="col-md-4">
+            <label for="email_ciente" class="form-label">
+              Email del cliente
+            </label>
+            <br />
+            {{ detalle_cliente.email_empleado}}
+          </div>
+        </div>
+
+        <div class="row mt-2">
+          <div class="col-md-4">
+            
+          </div>
+          <div class="col-md-4">
+            <label for="" class="form-label" download="ID"> Identificación Cliente </label>
+            <br />
+              
+                <embed
+                  style="width: 200px"
+                  src="/static/id_clientes/{{ detalle_cliente.foto_empleado }}"
+                  alt=""
+                />
+                <a href="/static/id_clientes/{{ detalle_cliente.foto_empleado }}" download="file" > Descargar </a>
+          </div>
+          
+        </div>
+
+        <div class="row mt-2">
+          <div class="col-md-6">
+            
+          </div>
+          
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% else %}
+<h2 class="text-center">
+  No existe el Cliente 😭
+  <hr />
+</h2>
+{% endif %} {% endblock %}

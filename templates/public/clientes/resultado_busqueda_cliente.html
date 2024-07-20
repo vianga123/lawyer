@@ -1,0 +1,50 @@
+{% for cliente in dataBusqueda %}
+<tr id="cliente_{{ cliente.id_empleado }}">
+  <td>{{ loop.index }}</td>
+  <td>{{ cliente.id }}</td>
+  <td>{{ cliente.nombre_empleado }}</td>
+  <td>{{ cliente.apellido_empleado }}</td>
+  <td width="10px">
+    <a
+      href="/detalles-cliente/{{ cliente.id_empleado }}"
+      title="Ver envio"
+      type="button"
+      class="btn btn-info btn-sm"
+      data-bs-toggle="tooltip"
+      data-bs-offset="0,4"
+      data-bs-placement="top"
+      data-bs-html="true"
+      title="<span>Ver detalles</span>">
+      <i class="bi bi-eye"></i>
+      Ver detalles
+    </a>
+    <a
+      href="{{ url_for('viewEditarCliente', id = cliente.id_empleado) }}"
+      class="btn btn-success btn-sm"
+      tooltip="Actualizar Registro">
+      <i class="bi bi-arrow-clockwise"></i>
+      Actualizar
+    </a>
+    <a
+      href="{{ url_for('viewNewProceso', id = cliente.id_empleado) }}"
+      class="btn btn-warning btn-sm"
+      tooltip="Actualizar Registro">
+      <i class="bi bi-newspaper"></i>
+      Nuevo Proceso
+    </a>
+    <a 
+      href="/lista-de-procesos/{{ cliente.id_empleado }}"
+      title="Ver procesos"
+      type="button"
+      class="btn btn-dark btn-sm"
+      data-bs-toggle="tooltip"
+      data-bs-offset="0,4"
+      data-bs-placement="top"
+      data-bs-html="true"
+      title="<span>Ver procesos</span>">
+      <i class="bi bi-view-list"></i>
+      Ver procesos
+    </a>
+  </td>
+</tr>
+{% endfor %}

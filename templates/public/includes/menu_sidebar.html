@@ -1,0 +1,81 @@
+<aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+  <div class="app-brand demo" >
+    <a href="{{ url_for('inicio') }}" class="app-brand-link">
+      <span class="app-brand-logo demo" >
+        <br>
+        <br>
+        <br>
+        <br>
+        <p style="color:#5B687C";></p> 
+        <img src="{{ url_for('static', filename ='assets/img/logoc.png') }}" alt="Logo" />
+        <br>
+        <p style="color:#5B687C";></p>
+        </span>
+    </a>
+    
+
+    <a
+      href="javascript:void(0);"
+      class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
+      <i class="bx bx-chevron-left bx-sm align-middle"></i>
+    </a>
+  </div>
+
+  <div class="menu-inner-shadow"></div>
+  <ul class="menu-inner py-5">
+    <li
+      class="menu-item {% if request.path == '/registrar-cliente' %} active {% endif %}">
+      <a href="{{ url_for('viewFormCliente') }}" class="menu-link">
+        <i class="menu-icon bi bi-person-bounding-box" style="color: rgba(2, 5, 7, 0.596);"></i>
+        <div data-i18n="Basic" style="color: rgba(1, 7, 10, 0.877);">Registrar Cliente</div>
+      </a>
+    </li>
+    <li
+      class="menu-item {% if request.path == '/lista-de-clientes' %} active{% endif %}">
+      <a href="/lista-de-clientes" class="menu-link">
+        <i class="menu-icon bi bi-person-lines-fill" style="color: rgba(2, 5, 7, 0.596);"></i>
+        <div data-i18n="Boxicons" style="color: rgba(1, 7, 10, 0.877);">Lista de Clientes</div>
+      </a>
+    </li>
+    <!-- <li
+      class="menu-item {% if request.path == '/descargar-informe-clientes' %} active {% endif %}">
+      <a href="/descargar-informe-clientes" class="menu-link">
+        <i class="menu-icon bi bi-file-earmark-spreadsheet-fill"></i>
+        <div data-i18n="Tables">Reportes</div>
+      </a>
+    </li> -->
+    <li
+      class="menu-item {% if request.path == '/lista-de-usuarios' %} active {% endif %}">
+      <a href="/lista-de-usuarios" class="menu-link">
+        <i class="menu-icon bi bi-person-vcard" style="color: rgba(2, 5, 7, 0.596);"></i>
+        <div data-i18n="Tables"  style="color: rgba(1, 7, 10, 0.877);">Lista de Usuarios</div>
+      </a>
+    </li>
+    <li
+      class="menu-item {% if request.path == '/mi-perfil' %} active {% endif %}">
+      <a href="/mi-perfil" class="menu-link">
+        <i class="menu-icon bi bi-person" style="color: rgba(2, 5, 7, 0.596);"></i>
+        <div data-i18n="Tables"  style="color: rgba(1, 7, 10, 0.877);">Mi Perfil</div>
+      </a>
+    </li>
+    <li
+      class="menu-item {% if request.path == '/register-user' %} active {% endif %}">
+      <a href="/register-user" class="menu-link">
+        <i class="menu-icon tf-icons bi-person-fill-gear" style="color: rgba(2, 5, 7, 0.596);"></i>
+        <div data-i18n="Tables"  style="color: rgba(1, 7, 10, 0.877);">Crear Usuario</div>
+      </a>
+    </li>
+    <li class="menu-item">
+      <a href="{{ url_for('cerraSesion') }}" class="menu-link">
+        <i class="menu-icon tf-icons bx bx-lock-open-alt" style="color: rgba(2, 5, 7, 0.596);"></i>
+        <div data-i18n="Tables"  style="color: rgba(1, 7, 10, 0.877);">Salir</div>
+      </a>
+    </li>
+    <li class="menu-item {% if request.path == '/acerca-de' %} active {% endif %}">
+      <a href="/acerca-de" class="menu-link">
+        <i class="menu-icon bi bi-info-circle-fill" style="color: rgba(2, 5, 7, 0.596);"></i>
+        <div data-i18n="Tables"  style="color: rgba(1, 7, 10, 0.877);">Información</div>
+      </a>
+    </li>
+  </ul>
+</aside>

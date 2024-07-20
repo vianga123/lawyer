@@ -1,0 +1,605 @@
+{% extends 'public/base_cpanel.html' %}
+<!--Cambiando el title-->
+{% block title %}Lawyer  | Registrar Nuevo Proceso{% endblock %}
+<!---->
+{% block customCSS %}
+<link
+  rel="stylesheet"/>
+{% endblock %}
+  
+<!--Inicio del block-->
+{% block body %}
+<div class="card" style="border-radius: 0px !important">
+  {% if respuestaCliente|length %}
+  <div class="row justify-content-center mb-2">
+    <div class="col-md-12">
+      <h3 class="text-center mt-5 mb-3">
+        <a href="/form-registrar-proceso">
+          <i class="bi bi-arrow-left-circle"></i>
+        </a>
+        CREAR PROCESO NUEVO
+      </h3>
+      <hr />
+    </div>
+  </div>
+  
+  <div class="row justify-content-center mb-2">
+    <div class="col-md-10">
+      <form
+        id="newProce"
+        name="newProce"
+        class="form-horizontal mx-auto" 
+        method="POST"
+        action="/lista-de-clientes"
+        onsubmit="return gDelitos"
+        enctype="multipart/form-data">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-4">
+              <label for="identificacion_empleado" class="form-label">
+                Identificacion del Cliente
+              </label>
+              <input
+                type="text"
+                name="id_cliente"
+                id="id_cliente"
+                value="{{ respuestaCliente.id }}"
+                class="form-control"
+                required 
+                readonly
+              />
+            </div>
+            <div class="col-md-4">
+              <label for="nombre_empleado" class="form-label">
+                Nombre Cliente
+              </label>
+              <input
+              type="text"
+              name="nombre_empleado"
+              id="nombre_empleado"
+              value="{{respuestaCliente.nombre_empleado}}"
+              class="form-control"
+              required 
+              readonly
+              disabled=true
+              />
+            </div>
+            <div class="col-md-4">
+              <label for="apellido_cliente"  class="form-label">
+                Apellido Cliente
+              </label>
+              <input
+              type="text"
+              name="apellido_cliente"
+              id="apellido_cliente"
+              value="{{respuestaCliente.apellido_empleado}}"
+              class="form-control"
+              required 
+              readonly
+              disabled="true"
+              />
+            </div>
+          </div>
+
+          <div class="row mt-2">
+            <div class="col-md-6">
+              <label class="form-label" >Seleccionar area</label>
+              <select  name="proce" id="proce" data-live-search="true" class="form-control" title="Seleccionar area" required>
+                  {% for row in tipoproceso  %}
+                  <option value='{{ row.id_tipo_area }}'>{{ row.proceso_nombre }}</option>
+                  {% endfor %}
+              </select>
+              
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" >Seleccionar tipo de proceso</label>
+              <select name="areas" data-live-search="true" id="areas" class="form-control" title="Seleccionar tipo proceso" required>
+                <option value="" selected="selected">seleccione</option>
+                
+              </select>
+            </div>
+          </div>
+           
+          <div class="row mt-2">
+            <div class="col-md-6">
+              <label for="proceso_numero" class="form-label">
+                Numero de Radicado
+              </label>
+              <input
+                class="form-control"
+                type="number"
+                maxlength="23"
+                minlength="23"
+                name="proceso_numero"
+                id="proceso_numero"
+                pattern="[0-9]+"
+                required />
+            </div>
+            <div class="col-md-6">
+              <label for="demandado" class="form-label">
+                Demandado
+              </label>
+              <input
+                class="form-control"
+                type="text"
+                name="demandado"
+                id="demandado"
+                onblur="this.value=this.value.toUpperCase()"
+                required />
+            </div>
+          </div>
+
+          <div class="row mt-2">
+            <div class="col-md-6">
+              <label for="depto" class="form-label">
+                Departamento Juzgado
+              </label>
+              <select name="depto"  id="depto" data-live-search="true" placeholder="Seleccione" class="form-control" required>
+                <option value="" selected="selected">seleccione</option>
+                {% for row in depto %}
+                <option value='{{ row.cod_municipio }}'>{{row.nombre}}</option>
+                {% endfor %}
+              </select>
+
+            </div>
+            <div class="col-md-6">
+              <label for="juzgado" class="form-label">
+                Juzgado
+              </label>
+              <select name="id_juzgado"  id="id_juzgado" data-live-search="true" placeholder="Seleccione" class="form-control" required>
+                <option value="" selected="selected">seleccione</option>
+              </select>
+            </div>
+           
+          </div>
+          
+          <div class="row mt-2" id="divdelgra">
+            <div class="col-md-6">
+              <label for="delitos" class="form-label">
+                Delito
+              </label>
+                <select name="id_delito" id="id_delito" data-live-search="true"  class="form-control" required>
+                  <option value="" selected="selected">seleccione</option>
+                  {% for row in combodelito %}
+                  <option value='{{ row.id_delito }}'>{{row.delitos_nombre}}</option>
+                  {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" >Seleccionar Agravante</label>
+              <select name="agra" data-live-search="true" id="agra" class="form-control" title="Seleccionar Agravante" required>
+                <option value="" selected="selected">seleccione</option>
+              </select>
+            </div>
+          </div>  
+
+         
+      
+    </div>
+          <div class="mb-3 mt-4 text-center">
+            <button id="gproceso" name="gproceso" class="btn rounded-pill btn-primary" onclick="validarCampos()">
+              Guardar procesos
+              <i class="bi bi-arrow-clockwise"></i>
+            </button>
+            <p id="mensajeError"></p>
+
+            <button id="gdelito" name="gdelito" class="btn rounded-pill btn-primary" onclick="validarCamposDel()">
+              Guardar Delito
+              <i class="bi bi-arrow-clockwise"></i>
+            </button>
+
+            <button id="otro" name="otro" class="btn rounded-pill btn-primary" onclick="oDelito()">
+              Agregar otro delito
+              <i class="bi bi-arrow-clockwise"></i>
+            </button>
+
+            <button id="terminar" name="terminar" action="lista_clientes.html" class="btn rounded-pill btn-primary">
+              Terminar
+              <i class="bi bi-arrow-clockwise"></i>
+            </button>
+          </div>
+          
+          <div class="table-responsive text-nowrap table-hover" id="tbl_del">
+            <table
+              table-hover
+              id="tbl_procesos"
+              class="table table-striped table-bordered"
+              cellspacing="0"
+              width="100%"
+              >
+              <thead>
+                <tr>
+                  <th>Delito</th>
+                  <th>Agravante</th>
+                  </tr>
+              </thead>
+              <tbody>
+                <tr id="">
+                  <td> <p id="resultado1"></p> </td>
+                  <td> <p id="resultado2"></p> </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  {% else %}
+  <div class="row justify-content-center mb-2">
+    <div class="col-md-12">
+      <h3 class="text-center">No existe el proceso</h3>
+    </div>
+  </div>
+
+  {% endif %}
+</div>
+{% endblock %} 
+
+{% block customJS %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
+   
+<!-- carga combo area dependiendo del tipo de proceso -->
+<script>
+  document.getElementById('tbl_del').style.display = 'none';
+  document.getElementById('divdelgra').style.display = 'none'; 
+</script>
+
+<script>
+          $(document).ready(function () {
+              $("#proce").selectpicker();
+              $("#areas").selectpicker();
+              $("#id_juzgado").selectpicker();
+              $("#id_delito").selectpicker();
+              id_delito.setAttribute("disabled","true");
+              agra.setAttribute("disabled","true");
+              gdelito.setAttribute("disabled","true");
+              terminar.setAttribute("disabled","true");
+              otro.setAttribute("disabled","true");
+              function load_data(type, id_tipo_area) {
+                  $.ajax({
+                      url: "/areas",
+                      method: "POST",
+                      data: { type: type, id_tipo_area: id_tipo_area },
+                      dataType: "json",
+                      success: function (data) { //alert(category_id)
+                        var html = "";
+                          for (var count = 0; count < data.length; count++) {
+                              html += '<option class="form-control" required value="' + data[count].id_tip_area + '">' + data[count].nombre_area + "</option>";
+                          }
+                          if (type == "areaData") {
+                              $("#proce").html(html);
+                              $("#proce").selectpicker("refresh");
+                             
+                          } else {
+                              $("#areas").html(html);
+                              $("#areas").selectpicker("refresh");
+                          }
+                      },
+                  });
+              }
+              $(document).on("change", "#proce", function () {
+                  var id_tipo_area = $("#proce").val();
+                  load_data("areaModeldata", id_tipo_area);
+              });
+          });
+</script>
+
+<script>
+     $( function() {
+    $("#proce").change( function() {
+        if ($(this).val() === "1") {
+            id_delito.value= "";
+            document.getElementById('id_juzgado').focus()
+        } else {
+            document.getElementById('id_juzgado').focus()
+        }
+    });
+});
+</script>    
+
+<!-- CARGA COMBO DE juzgados dependiendo del MUNICIPIOS que se seleccione -->
+<script>
+  $(document).ready(function () {
+      $("#depto").selectpicker();
+      $("#id_juzgado").selectpicker();
+      function load_data(type, cod_municipio) {
+          $.ajax({
+              url: "/depto",
+              method: "POST",
+              data: { type: type, cod_municipio: cod_municipio },
+              dataType: "json",
+              success: function (data) { //alert(category_id)
+                var html = "";
+                  for (var count = 0; count < data.length; count++) {
+                      html += '<option class="form-control" required value="' + data[count].id_juzgado + '">' + data[count].nombre_juzgado +"</option>";
+                  }
+                  if (type == "municipioData") {
+                      $("#depto").html(html);
+                      $("#depto").selectpicker("refresh");
+                  } else {
+                      $("#id_juzgado").html(html);
+                      $("#id_juzgado").selectpicker("refresh");
+                  }
+              },
+          });
+      }
+      $(document).on("change", "#depto", function () {
+          var cod_municipio = $("#depto").val();
+          load_data("areaModeldata", cod_municipio);
+      });
+  });
+</script>
+
+<!-- //  CARGA COMBO DE AGRAVANTES DEPENDIENDO DEL DELITO  -->
+<script>
+  $(document).ready(function () {
+      $("#id_delito").selectpicker();
+      $("#agra").selectpicker();
+        function load_data(type, id_delito) {
+          var ag = document.getElementById('agra').value;
+          $.ajax({
+              url: "/agravante",
+              method: "POST",
+              data: { type: type, id_delito: id_delito },
+              dataType: "json",
+              success: function (data) { //alert(id_delito)
+                var html = "";
+                  for (var count = 0; count < data.length; count++) {
+                      html += '<option class="form-control" required value="' + data[count].id_agravante + '">' + data[count].descripcion + "</option>";
+                  }
+                  if (type == "modelData") {
+                      $("#id_delito").html(html);
+                      $("#id_delito").selectpicker("refresh");
+                  } else {
+                      $("#agra").html(html);
+                      $("#agra").selectpicker("refresh");
+                  }
+              },
+          });
+      }
+      $(document).on("change", "#id_delito", function () {
+          var id_delito = $("#id_delito").val();
+          load_data("areaModeldata", id_delito);
+      });
+  });
+</script>
+
+<script>
+  //consultar proceso ya existente   
+$("#proceso_numero").on("blur", function() {
+  var id = $("#proceso_numero").val(); //CAPTURANDO EL VALOR DE INPUT CON ID CEDULA
+  var dataString = 'cedula=' + id;
+     $.ajax({
+          url: `/buscando-pro/${id}`,
+          type: "POST",
+          data: dataString,
+          dataType: "JSON",
+          success: function(data){
+              var html = "";
+                for (var count = 0; count < data.length; count++) {
+                    html += data[count].proceso_numero;
+                }
+                if (html==id){
+                  if(html==id){
+                        alert("El proceso número "+html+" ya existe por favor verificar.");
+                        document.getElementById("proceso_numero").value = "";
+                        document.getElementById('proceso_numero').focus();
+                      }else{
+                        document.getElementById('deamndado').focus();
+                      }
+                  }
+          }
+          
+      });
+   // }
+  });
+</script>
+
+<!-- //boton otro delito  -->
+<script>
+function oDelito() {
+        var idel="";
+        $("#gproceso").prop("disabled",true);
+        $("#terminar").prop("disabled",false);
+        $("#proce").prop("disabled", true);
+        $("#areas").prop("disabled", true);
+        $("#proceso_numero").prop("disabled", true);
+        $("#demandado").prop("disabled", true);
+        $("#depto").prop("disabled", true);
+        $("#id_juzgado ").prop("disabled", true);
+        $("#gdelito").prop("disabled",false);
+        $("#agra").prop("disabled", false);
+        $("#otro").prop("disabled",true);
+        $("#id_delito").prop("disabled", false);
+        $("#agra").prop("disabled", false);
+        $("#id_delito").val('0')
+        $("#agra").val('0')
+        $("#id_delito").selectpicker("refresh");
+        $("#agra").selectpicker("refresh");
+}
+</script>
+
+<!-- ***********  Inicio de validacion de formulario antes de enviar a guardar un proceso, si pasa la validacion pasa a guardar ***********  -->
+<script>
+function validarCampos() {
+  if (confirm("¿Estas seguro que desea guardar el proceso?")){ 
+    const mensajeError = document.getElementById('mensajeError');
+     var id_cliente = document.getElementById('id_cliente').value;
+     var proce = document.getElementById('proce').value;
+     var areas = document.getElementById('areas').value;
+     var proceso_numero = document.getElementById('proceso_numero').value;
+     var demandado = document.getElementById('demandado').value;
+     var depto = document.getElementById('depto').value;
+     var id_juzgado = document.getElementById('id_juzgado').value;
+     // Validación de los campos
+        if (proce.trim() === '') {
+            mensajeError.innerText = 'Seleccione un area.';
+            return;
+        }
+
+        if (areas.trim() === '') {
+            mensajeError.innerText = 'Seleccione un tipo de proceso.';
+            return;
+        }
+
+        if (proceso_numero.trim() === '') {
+            mensajeError.innerText = 'Ingrese un numero de proceso de 23 caracteres.';
+            return;
+        }
+
+        if (demandado === '') {
+            mensajeError.innerText = 'Ingrese un demandado.';
+            return;
+        }
+
+        if (depto === '') {
+            mensajeError.innerText = 'Seleccione un municipio.';
+            return;
+        }
+
+        if (id_juzgado === '') {
+            mensajeError.innerText = 'Seleccione un juzgado.';
+            return;
+        }
+
+        if (proceso_numero !== ''){
+          var id = $("#proceso_numero").val(); //CAPTURANDO EL VALOR DE INPUT CON ID CEDULA
+          var dataString = 'cedula=' + id;
+            $.ajax({
+                  url: `/buscando-pro/${id}`,
+                  type: "POST",
+                  data: dataString,
+                  dataType: "JSON",
+                  success: function(data){
+                    var html = "";
+                        for (var count = 0; count < data.length; count++) {
+                            html += data[count].proceso_numero;
+                        }
+                        if (html==id){
+                          if(html==id){
+                                alert("El proceso número "+html+" ya existe por favor verificar.");
+                                document.getElementById("proceso_numero").value = "";
+                                document.getElementById('proceso_numero').focus();
+                                $("#proceso_numero").prop("disabled", false);
+                              }else{
+                                document.getElementById('demandado').focus();
+                              }
+                          }
+                  }
+              });
+        }
+        // Si todo está correcto, se puede proceder a enviar el formulario o hacer alguna otra acción
+                $.ajax({  
+                  url:`/form-registrar-proceso`,
+                  type:'post',
+                  data:{id_cliente:id_cliente,proce:proce,areas:areas,proceso_numero:proceso_numero,demandado:demandado,depto:depto,id_juzgado:id_juzgado},
+                  dataType: "json",
+                })
+                  $("#proce").prop("disabled", true);
+                  $("#areas").prop("disabled", true);
+                  $("#proceso_numero").prop("disabled", true);
+                  $("#demandado").prop("disabled", true);
+                  $("#depto").prop("disabled", true);
+                  $("#id_juzgado ").prop("disabled", true);
+                  $("#gproceso").prop("disabled", true);
+                  $("#gdelito").prop("disabled", false);
+                  $("#id_delito").prop("disabled", false);
+                  $("#agra").prop("disabled", false);
+                  gproceso.setAttribute("disabled","true");
+                  terminar.setAttribute("disabled","false");
+                  otro.setAttribute("disabled","false");
+                  if (proce=='1'){
+                    document.getElementById('divdelgra').style.display = 'block'; 
+                  }else{
+                    $("#id_delito").prop("disabled", true);
+                    $("#agra").prop("disabled", true);
+                    $("#otro").prop("disabled", true);
+                    $("#gdelito").prop("disabled", true);
+                    $("#terminar").prop("disabled", false);
+                    $("#gproceso").prop("disabled", true);
+                  }
+}
+}
+</script>
+
+<!-- validar campor de delitos y guardar si pasan la validacion -->
+<script>
+function validarCamposDel() {
+  if (confirm("¿Estas seguro que desea guardar el delito?")){  
+    const mensajeError = document.getElementById('mensajeError');
+     var id_cliente = document.getElementById('id_cliente').value;
+     var id_delito = document.getElementById('id_delito').value;
+     var agra = document.getElementById('agra').value;
+     var proceso_numero = document.getElementById('proceso_numero').value;
+     document.getElementById('tbl_del').style.display = 'block'; 
+     // Validación de los campos
+        if (id_delito.trim() === '') {
+            mensajeError.innerText = 'Seleccione un delito.';
+            return;
+        }
+
+        if (agra.trim() === '') {
+            mensajeError.innerText = 'Seleccione un agravante.';
+            return;
+        }
+        $.ajax({
+          url:`/form-registrar-delitos`,
+          type:'post',
+          data:{id_cliente:id_cliente,id_delito:id_delito,agra:agra,proceso_numero:proceso_numero},
+          dataType: "json",
+          success:function(resp){
+             $("#resultado").html(resp);
+          }
+        });
+        $("#proce").prop("disabled", true);
+        $("#areas").prop("disabled", true);
+        $("#proceso_numero").prop("disabled", true);
+        $("#demandado").prop("disabled", true);
+        $("#depto").prop("disabled", true);
+        $("#id_juzgado ").prop("disabled", true);
+        $("#gproceso").prop("disabled", true);
+        $("#gdelito").prop("disabled", true);
+        $("#id_delito").prop("disabled", true);
+        $("#agra").prop("disabled", true);
+        $("#gdelito").prop("disabled",true);
+        $("#gproceso").prop("disabled",true);
+        $("#otro").prop("disabled",false);
+        $("#terminar").prop("disabled",false);
+        $("#id_delito").selectpicker("refresh");
+        $("#agra").selectpicker("refresh");
+        $("#id_delito").val('0')
+        $("#agra").val('0')
+        $("#id_delito").selectpicker("refresh");
+        $("#agra").selectpicker("refresh");
+        
+  }
+  //listando los delitos que se van guardando de un proceso
+  var id_cli = document.getElementById('id_cliente').value;
+  var radicado = document.getElementById('proceso_numero').value;
+          $.ajax({
+            url: "/listarde",
+            method: "POST",
+            data: { id_cli: id_cli, radicado: radicado},
+            dataType: "json",
+            success: function (data) { //alert(id_delito)
+              var html1 = "";
+              var html2 = "";
+              var html3 = "";
+                for (var count = 0; count < data.length; count++) {
+                    html1 += '<p >'+data[count].delitos_nombre+"</p>";
+                    html2 += '<p >'+data[count].descripcion+"</p>";
+                    html3 += '<p  type="button" class="btn btn-info btn-sm" data-bs-toggle="tooltip" data-bs-offset="0,4" data-bs-placement="top" data-bs-html="true">'+ 'Eliminar' +"</p>";
+                    $("#resultado1").html(html1);
+                    $("#resultado2").html(html2);
+                    $("#filas").html(html3);
+                }
+            },
+            
+        });
+        }
+</script>
+<!-- *********** Fin de validacion de formulario antes de enviar a guardar un nuevo proceso, si pasa la validacion pasa a guardar  ***********  -->
+{% endblock %}

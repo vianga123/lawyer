@@ -1,0 +1,37 @@
+{% for etapa in dataBusqueda %}
+<tr id="etapa_{{ etapa.id_etapa }}">
+  <td>{{ loop.index }}</td>
+  <td>{{ etapa.nombre_etapa }}</td>
+  <td>{{ etapa.proceso_numero }}</td>
+  <td>{{ etapa.anotacion_etapa }}</td>
+  <td width="10px">
+    <a
+      href="{{ url_for('viewNewEtapa', id = listae.id_etapa) }}"
+      title="Ver envio"
+      type="button"
+      class="btn btn-info btn-sm"
+      data-bs-toggle="tooltip"
+      data-bs-offset="0,4"
+      data-bs-placement="top"
+      data-bs-html="true"
+      title="<span>Ver detalles</span>">
+      <i class="bi bi-eye"></i>
+      Modificar etapa
+    </a>
+   <a
+      href="#"
+      onclick="eliminarCliente('{{ listae.id_etapa }}');"
+      class="btn btn-danger btn-sm"
+      data-bs-toggle="tooltip"
+      data-bs-offset="0,4"
+      data-bs-placement="top"
+      data-bs-html="true"
+      title="<span>Eliminar cliente {{ listae.id_etapa }}</span>">
+      <i class="bi bi-trash3"></i>
+      Finizar proceso
+    </a>
+    
+  </td>
+</tr>
+
+{% endfor %}

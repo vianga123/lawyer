@@ -1,0 +1,160 @@
+{% extends 'public/base_cpanel.html' %}
+<!--Cambiando el title-->
+{% block title %}Lawyer | Registrar Cliente{% endblock %}
+<!---->
+{% block customCSS %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename ='assets/css/file.css') }}" />
+  
+
+  {% endblock %}
+
+<!--Inicio del block-->
+{% block body %}
+<div class="card" style="border-radius: 0px !important"> 
+  <div class="row justify-content-center mb-2">
+    <div class="col-md-12">
+      <h3 class="text-center mt-5 mb-3">REGISTRAR NUEVO CLIENTE</h3>
+      <hr />
+    </div>
+  </div>
+
+  <div class="row justify-content-center mb-2">
+    <div class="col-md-10">
+      <form
+        class="form-horizontal mx-auto"
+        name="cliente"
+        method="POST"
+        action="/form-registrar-cliente"
+        autocomplete="on"
+        enctype="multipart/form-data">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4">
+                  <label for="Id_Cliente" class="form-label">
+                    Identificación Cliente
+                  </label>
+                  <input
+                    type="text"
+                    minlength="10"
+                    pattern=".{3,}"
+                    name="id"
+                    id="id"
+                    class="form-control"
+                    required 
+                    
+                    />
+                    
+                </div>
+                <div class="col-md-4">
+                  <label for="nombre_empleado" class="form-label">
+                    Nombre del cliente
+                  </label>
+                  <input
+                    type="text"
+                    name="nombre_empleado"
+                    id="nombre_empleado"
+                    class="form-control"
+                    value="{{re}}"
+                    onblur="this.value=this.value.toUpperCase()"
+                    required />
+                </div>
+                <div class="col-md-4">
+                  <label for="apellido_empleado" class="form-label">
+                    Apellido del cliente
+                  </label>
+                  <input
+                    class="form-control"
+                    type="text"
+                    name="apellido_empleado"
+                    onblur="this.value=this.value.toUpperCase()"
+                    required />
+                </div>
+            </div>
+          <div class="row mt-2">
+                <div class="col-md-4">
+                  <label for="sexo_empleado" class="form-label">
+                    Sexo del cliente
+                  </label>
+                  <select
+                    class="form-select"
+                    name="sexo_empleado"
+                    id="sexo_empleado"
+                    data-live-search="true"
+                    aria-label="Default select example">
+                    <option selected>Seleccione</option>
+                    <option value="1">MASCULINO</option>
+                    <option value="2">FEMENINO</option>
+                  </select>
+                </div>
+                <div class="col-md-4">
+                  <label for="telefono_empleado" class="form-label">
+                    Telefono del cliente
+                  </label>
+                  <input
+                    class="form-control"
+                    type="text"
+                    name="telefono_empleado"
+                    required />
+                </div>
+                <div class="col-md-4">
+                  <label for="ubicacion" class="form-label">
+                    Ubicación del Cliente
+                  </label>
+                  <select name="ubicacion"  id="ubicacion" data-live-search="true" placeholder="Seleccione" class="form-control" required>
+                    <option value="" selected="selected">seleccione</option>
+                    {% for row in depto %}
+                    <option value='{{row.nombre}}'>{{row.nombre}}</option>
+                    {% endfor %}
+                  </select>
+                </div>  
+          </div>
+
+          <div class="row mt-2">
+                <div class="col-md-4">
+                  <label for="email_empleado" class="form-label">
+                    Email del cliente
+                  </label>
+                  <input
+                    class="form-control"
+                    type="email"
+                    name="email_empleado"
+                    onblur="this.value=this.value.toUpperCase()"
+                    required />
+                </div>
+                <div class="col-md-4">
+                  <label for="Carga_id" class="form-label">
+                    Cargar identificación
+                  </label>
+                  <input
+                    type="file"
+                    class="btn rounded-pill"
+                    name="foto_empleado"
+                    id="imageUpload"
+                    accept=".pdf"
+                    title="Seleccionar archivo .PDF"
+                    required />
+                </div>
+          </div>
+
+          <div class="mb-3 mt-4 text-center">
+            <button type="submit" id="envicli" name="envicli" onclick="enviII()" class="btn rounded-pill btn-primary">
+              Guardar registro ahora
+              <i class="bi bi-arrow-clockwise"></i>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %} {% block customJS %}
+ 
+  <script src="{{ url_for('static', filename ='assets/customJS/file.js') }}"></script>
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script> -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
+  <script> $("#ubicacion").selectpicker(); </script>
+  
+{% endblock %}

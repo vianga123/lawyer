@@ -1,0 +1,105 @@
+{% extends 'public/base_cpanel.html' %}
+<!--Cambiando el title-->
+{% block title %}Lawyer  | Lista de Clientes{% endblock %}
+<!--Inicio del block-->
+{% block body %}
+
+<div class="card" style="border-radius: 0px !important">
+  <div class="row justify-content-center mb-2">
+    <div class="col-md-12 mb-4">
+      <h3 class="text-center mt-5 mb-3">LISTA DE CLIENTES</h3>
+      <hr />
+    </div>
+
+    <div class="row justify-content-end">
+      <div class="col-md-6 mt-4 py-2">
+        <input
+          type="search"
+          id="search"
+          name="search"
+          class="form-control border-0 shadow-none"
+          placeholder="Ingrese número de identificación del cliente..."
+          
+          onkeyup="buscadorTableC('tbl_clientes')"; />
+      </div>
+    </div>
+
+    <div class="row justify-content-center mb-2">
+      <div class="table-responsive text-nowrap table-hover">
+        <table
+          table-hover
+          id="tbl_clientes"
+          name="tbl_clientes"
+          class="table table-striped table-bordered"
+          cellspacing="0"
+          width="100%">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Identificación</th>
+              <th>Nombre</th>
+              <th>Apellido</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+
+            {% for cliente in clientes %}
+            <tr id="cliente_{{ cliente.id_empleado }}">
+              <td>{{ loop.index }}</td>
+              <td>{{ cliente.id }}</td>
+              <td>{{ cliente.nombre_empleado }}</td>
+              <td>{{ cliente.apellido_empleado }}</td>
+              <!-- <td>{{ cliente.sexo_empleado }}</td> -->
+              <td width="10px">
+                <a
+                  href="/detalles-cliente/{{ cliente.id_empleado }}"
+                  title="Ver envio"
+                  type="button"
+                  class="btn btn-info btn-sm"
+                  data-bs-toggle="tooltip"
+                  data-bs-offset="0,4"
+                  data-bs-placement="top"
+                  data-bs-html="true">
+                  
+                  Ver detalles
+                </a>
+                <a
+                  href="{{ url_for('viewEditarCliente', id = cliente.id_empleado) }}"
+                  class="btn btn-success btn-sm"
+                  tooltip="Actualizar Registro">
+                  
+                  Actualizar
+                </a>
+                <a
+                  href="{{ url_for('viewNewProceso', id = cliente.id_empleado) }}"
+                  class="btn btn-warning btn-sm"
+                  tooltip="Actualizar Registro">
+                  <i class="bi bi-newspaper"></i>
+                  Nuevo Proceso
+                </a>
+                <a 
+                  href="/lista-de-procesos/{{ cliente.id_empleado }}"
+                  title="Ver procesos"
+                  type="button"
+                  class="btn btn-dark btn-sm"
+                  data-bs-toggle="tooltip"
+                  data-bs-offset="0,4"
+                  data-bs-placement="top"
+                  data-bs-html="true">
+                  
+                  Ver procesos
+                </a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+{% endblock %}

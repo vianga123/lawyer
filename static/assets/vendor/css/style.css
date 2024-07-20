@@ -1,0 +1,34 @@
+* {
+    margin:0;
+    padding:0;
+    box-sizing: border-box;	  		
+  }
+  
+  body {
+        background: radial-gradient(#272727, #1b1b1b);
+        font-family:sans-serif;
+        text-transform: uppercase;
+        height:100vh;
+        display:flex;	 				
+        justify-content:center;
+        align-items:center;	
+  } 
+  
+  div {
+        background-image: repeating-linear-gradient(
+        105deg,
+        #ffb338 0%,
+        #3e2904 5%,
+        #ffb338 12%,
+        );		 	
+        color: #363833;
+        filter: drop-shadow(5px 15px #000);
+        transform: scaley(1.05);
+        position: relative;
+        font-weight: 900;
+        font-size: 10em;
+        letter-spacing: 1px;
+        -webkit-text-stroke: 10px transparent;
+        -webkit-background-clip: text; 	
+  }
+  

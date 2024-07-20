@@ -1,0 +1,214 @@
+{% extends 'public/base_cpanel.html' %}
+<!--Cambiando el title-->
+{% block title %}Lawyer | Registrar Nuevo Cliente{% endblock %}
+<!---->
+{% block customCSS %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename ='assets/css/file.css') }}" />
+{% endblock %}
+
+<!--Inicio del block-->
+{% block body %}
+<div class="card" style="border-radius: 0px !important">
+  {% if respuestaCliente|length %}
+  <div class="row justify-content-center mb-2">
+    <div class="col-md-12">
+      <h3 class="text-center mt-5 mb-3">
+        <a href="/lista-de-clientes">
+          <i class="bi bi-arrow-left-circle"></i>
+        </a>
+        ACTUALIZAR DATOS DEL CLIENTE
+      </h3>
+      <hr />
+    </div>
+  </div>
+
+  <div class="row justify-content-center mb-2">
+    <div class="col-md-10">
+      <form
+        class="form-horizontal mx-auto"
+        method="POST"
+        action="{{ url_for('actualizarCliente', id = respuestaCliente.id_empleado ) }}"
+        autocomplete="off"
+        enctype="multipart/form-data">
+        <input
+          type="text"
+          class="form-control"
+          name="id_empleado"
+          value="{{ respuestaCliente.id_empleado }}"
+          required
+          hidden />
+          <input
+          type="text"
+          class="form-control"
+          name="id"
+          value="{{ respuestaCliente.id}}"
+          required
+          hidden />  
+
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6">
+              <label for="nombre_empleado" class="form-label">
+                Nombre del empleado
+              </label>
+              <input
+                type="text"
+                name="nombre_empleado"
+                value="{{ respuestaCliente.nombre_empleado }}"
+                class="form-control"
+                onblur="this.value=this.value.toUpperCase()"
+                required />
+            </div>
+            <div class="col-md-6">
+              <label for="apellido_empleado" class="form-label">
+                Apellido del empleado
+              </label>
+              <input
+                class="form-control"
+                type="text"
+                name="apellido_empleado"
+                value="{{ respuestaCliente.apellido_empleado }}"
+                onblur="this.value=this.value.toUpperCase()"
+                required />
+            </div>
+          </div>
+
+          <div class="row mt-2">
+            <div class="col-md-6">
+              <label for="sexo_empleado" class="form-label">
+                Sexo del empleado
+              </label>
+              {% with tipo_sexo = {"1": "MASCULINO", "2": "FEMENINO"} %}
+              <select class="form-select" name="sexo_empleado">
+                {% for clave, valor in tipo_sexo.items() %} {% if clave ==
+                respuestaCliente.sexo_empleado|string %}
+                <option value="{{ clave }}" selected>{{ valor }}</option>
+                {% else %}
+                <option value="{{ clave }}">{{ valor }}</option>
+                {% endif %} {% endfor %}
+              </select>
+              {% endwith %}
+            </div>
+
+            <div class="col-md-6">
+              <label for="telefono_empleado" class="form-label">
+                Telefono del empleado
+              </label>
+              <input
+                class="form-control"
+                type="text"
+                name="telefono_empleado"
+                value="{{ respuestaCliente.telefono_empleado }}"
+                required />
+            </div>
+          </div>
+
+          <div class="row mt-2">
+            <div class="col-md-6">
+              <label for="ubicacion" class="form-label">
+                Ubicación del Cliente
+              </label>
+              <select name="ubicacion"  id="ubicacion" data-live-search="true" placeholder="Seleccione" class="form-control" required>
+                {% for row in depto %} {% if row.nombre == respuestaCliente.ubicacion %}
+                <option value='{{respuestaCliente.ubicacion}}'>{{  respuestaCliente.ubicacion }}</option>
+                {% endif %}{% endfor %}
+                {% for row in depto %} {% if row.nombre != respuestaCliente.ubicacion %}
+                <option value='{{row.nombre}}' >{{  row.nombre }}</option>
+                {% endif %} {% endfor %}
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label for="email_empleado" class="form-label">
+                Email del empleado
+              </label>
+              <input
+                class="form-control"
+                type="email"
+                name="email_empleado"
+                value="{{ respuestaCliente.email_empleado }}"
+                onblur="this.value=this.value.toUpperCase()"
+                required />
+            </div>
+          </div>
+          <div class="row mt-2">
+            <div class="table-responsive text-nowrap table-hover">
+              <table
+                table-hover
+                id="tbl_listado"
+                class="table table-striped table-bordered"
+                cellspacing="0"
+                width="100%"
+                >
+                <thead>
+                  <tr>
+                    <th>Documento</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr id="">
+                    <td>
+                      <div class="avatar-upload">
+                        <embed
+                        style="width: 200px"
+                        src="/static/id_clientes/{{ respuestaCliente.foto_empleado }}"
+                        alt=""
+                         />
+                                     
+                        <div class="avatar-edit">
+                          <input
+                            type="file"
+                            name="foto_empleado"
+                            id="imageUpload"
+                            accept=".pdf"
+                            />
+                          <label for="imageUpload"><i class="bi bi-pen"></i></label>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            
+          </div>
+          <div class="row mt-2" hidden>
+            <input
+              type="text"
+              name="cod"
+              id="cod"
+              value="{{ respuestaCliente.foto_empleado }}"
+              hidden
+              />
+            <label for="imageUpload"><i class="bi bi-pen"></i></label>
+          </div>
+
+          <div class="mb-3 mt-4 text-center">
+            <button type="submit" id="envi" name="envi" onclick="enviI()" class="btn rounded-pill btn-primary">
+              Actualizar registro
+              <i class="bi bi-arrow-clockwise"></i>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  {% else %}
+  <div class="row justify-content-center mb-2">
+    <div class="col-md-12">
+      <h3 class="text-center">No existe el empleado</h3>
+    </div>
+  </div>
+
+  {% endif %}
+</div>
+{% endblock %} 
+
+{% block customJS %}
+<script src="{{ url_for('static', filename ='assets/customJS/file.js') }}"></script>
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script> -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
+  <script> $("#ubicacion").selectpicker(); </script> (); </script>
+{% endblock %}

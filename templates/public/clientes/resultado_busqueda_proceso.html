@@ -1,0 +1,39 @@
+{% for proceso in dataBusqueda %}
+<tr id="proceso_{{ proceso.id_proceso }}">
+  <td>{{ loop.index }}</td>
+  <td>{{ proceso.id_cliente }}</td>
+  <td>{{ proceso.nombre_empleado }}</td>
+  <td>{{ proceso.apellido_empleado }}</td>
+  <td>{{ proceso.proceso_nombre }}</td>
+  <td>{{ proceso.proceso_numero }}</td>
+  <td width="10px">
+    <a
+      
+      href="{{ url_for('viewNewEtapa', id = proceso.id_proceso, ti = proceso.id_tipo_proceso) }}"
+      title="Ver envio"
+      type="button"
+      class="btn btn-info btn-sm"
+      data-bs-toggle="tooltip"
+      data-bs-offset="0,4"
+      data-bs-placement="top"
+      data-bs-html="true"
+      title="<span>Ver detalles</span>">
+      <i class="bi bi-eye"></i>
+      Etapa Procesos
+    </a>
+   <a
+      href="#"
+      onclick="eliminarCliente('{{ proceso.id_empleado }}','{{ proceso.foto_empleado }}');"
+      class="btn btn-danger btn-sm"
+      data-bs-toggle="tooltip"
+      data-bs-offset="0,4"
+      data-bs-placement="top"
+      data-bs-html="true"
+      title="<span>Eliminar cliente {{ proceso.nombre_empleado }}</span>">
+      <i class="bi bi-trash3"></i>
+      Finizar proceso
+    </a>
+    </td>
+</tr>
+
+{% endfor %}
